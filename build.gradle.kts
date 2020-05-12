@@ -55,6 +55,7 @@ kotlin {
             implementation("org.evoleq:mathcat-result-jvm:1.0.0")
             implementation("org.evoleq:mathcat-core-jvm:1.0.0")
             implementation("org.evoleq:mathcat-structure-jvm:1.0.0")
+            implementation("org.evoleq:ktorx-jvm:1.0.0")
             
             implementation(Config.Dependencies.kotlinSerializationRuntime)
             // kotlin serialization
@@ -87,6 +88,7 @@ kotlin {
             implementation("org.evoleq:mathcat-result-js:1.0.0")
             implementation("org.evoleq:mathcat-core-js:1.0.0")
             implementation("org.evoleq:mathcat-structure-js:1.0.0")
+            implementation("org.evoleq:ktorx-js:1.0.0")
             
             // kotlin serialization
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${Config.Versions.kotlinSerialization}")
@@ -117,7 +119,7 @@ kotlin {
                 
                 implementation( Config.Dependencies.kotlinSerializationRuntimeCommon )
                 
-                implementation( project( ":ktorx" ))
+                //implementation( project( ":ktorx" ))
     
                 implementation("io.ktor:ktor-client-core:${Config.Versions.ktor}")
                // implementation("io.ktor:ktor-client-cio:${Config.Versions.ktor}")
