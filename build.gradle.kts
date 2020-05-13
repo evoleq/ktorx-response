@@ -55,6 +55,9 @@ kotlin {
             implementation("org.evoleq:mathcat-result-jvm:1.0.0")
             implementation("org.evoleq:mathcat-core-jvm:1.0.0")
             implementation("org.evoleq:mathcat-structure-jvm:1.0.0")
+            implementation("org.evoleq:mathcat-structure-jvm:1.0.0")
+            implementation("org.evoleq:mathcat-morphism-jvm:1.0.0")
+            implementation("org.evoleq:mathcat-state-jvm:1.0.0")
             implementation("org.evoleq:ktorx-jvm:1.0.0")
             
             implementation(Config.Dependencies.kotlinSerializationRuntime)
@@ -72,6 +75,7 @@ kotlin {
     // JVM-specific tests and their dependencies:
     jvm().compilations["test"].defaultSourceSet {
         dependencies {
+            implementation(Config.Dependencies.kotlinSerializationRuntime)
             implementation(kotlin("test-junit"))
         }
     }
@@ -88,6 +92,9 @@ kotlin {
             implementation("org.evoleq:mathcat-result-js:1.0.0")
             implementation("org.evoleq:mathcat-core-js:1.0.0")
             implementation("org.evoleq:mathcat-structure-js:1.0.0")
+            implementation("org.evoleq:mathcat-structure-js:1.0.0")
+            implementation("org.evoleq:mathcat-morphism-js:1.0.0")
+            implementation("org.evoleq:mathcat-state-js:1.0.0")
             implementation("org.evoleq:ktorx-js:1.0.0")
             
             // kotlin serialization
@@ -133,7 +140,24 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation( Config.Dependencies.kotlinSerializationRuntimeCommon )
             }
         }
+    }
+}
+
+tasks{
+    val licenseFormatJsMain by creating(com.hierynomus.gradle.license.tasks.LicenseFormat::class) {
+        source = fileTree("$projectDir/src/jsMain/kotlin") {
+        }
+        group = "license"
+    }
+    val licenseFormatCommonMain by creating(com.hierynomus.gradle.license.tasks.LicenseFormat::class) {
+        source = fileTree("$projectDir/src/commonMain/kotlin") {
+        }
+        group = "license"
+    }
+    licenseFormat {
+        finalizedBy(licenseFormatJsMain, licenseFormatCommonMain)
     }
 }

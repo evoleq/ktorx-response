@@ -27,7 +27,6 @@ import io.ktor.client.request.head
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import org.evoleq.ktorx.response.Response
 
 suspend inline fun <reified Data> HttpClient.get(
     dataSerializer: KSerializer<Data>,
