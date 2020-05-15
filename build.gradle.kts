@@ -79,7 +79,17 @@ kotlin {
             implementation(kotlin("test-junit"))
         }
     }
+    /*
+    js(){
+        browser {
+            dceTask {
+                keep("ktor-ktor-io.\$\$importsForInline\$\$.ktor-ktor-io.io.ktor.utils.io")
+            }
+        }
+        
+    }
     
+     */
     js().compilations["main"].defaultSourceSet  {
         dependencies {
             //implementation(kotlin("js"))
@@ -111,6 +121,7 @@ kotlin {
     
             implementation("io.ktor:ktor-websockets:${Config.Versions.ktor}")
         }
+        
         /* ... */
     }
     js().compilations["test"].defaultSourceSet {/* ... */ }
