@@ -1,7 +1,10 @@
-# Ktorx Response 
-Go functional cross context-boundaries with serializable generic responses. 
+[![Download](https://api.bintray.com/packages/drx/maven/evoleq/images/download.svg?version=1.0.0) ](https://bintray.com/drx/maven/evoleq/1.0.0/link)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This package provides a KSeraializer for the generic response class
+# Ktorx Response 
+Go functional cross context-boundaries with ktor and serializable generic responses. 
+
+This mpp-capable package provides a KSeraializer for the generic response class
 ```kotlin
 sealed class Response<Data> {
     data class Success<Data>(
@@ -17,7 +20,7 @@ together with some http-related helper functions for effective usage.
 For more details, please visit the source code.
 
 ## Important observations:
-  1. Response.Failure<T> is type-agnostic. 
+  1. ```Response.Failure<T>``` is type-agnostic. 
      This allows easy 'exception-handling' cross api boundaries; 
      The error can simply be passed back to the client through a whole sequence of requests.
   2. A serialized ```Response<T>``` can always be deserialized to a ```Response<JsonElement>``` and serialized back to ```Reaponse<T>``` again. 
@@ -52,12 +55,3 @@ val response: Response<Data> = with(HttpClient()) {
         url = example.com/response
 }
 ```
-
-where, the response class is given by
-```kotlin
-sealed class Response<Data> {
-    data class Success<Data>(val data: Data)
-    data class Failure<Data>(val message: String, val code: Int) 
-}
-```
-
