@@ -7,10 +7,10 @@ Go functional cross context-boundaries with ktor and serializable generic respon
 This mpp-capable package provides a KSeraializer for the generic response class
 ```kotlin
 sealed class Response<Data> {
-    data class Success<Data>(
+    data class Success<Data> (
         val data: Data
     )
-    data class Failure<Data>(
+    data class Failure<Data> (
         val message: String, 
         val code: Int
     ) 
@@ -31,6 +31,7 @@ For more details, please visit the source code.
 
 Server side (using ktor) :
 ```kotlin
+@Serializable
 data class Data( /* parameters */ )
 ...
 routing() {
@@ -55,3 +56,14 @@ val response: Response<Data> = with(HttpClient()) {
         url = example.com/response
 }
 ```
+<!--
+## Insallation
+
+```kotlin
+...
+dependencies {
+    implementation("org,evoleq:ktorx-response1.0.0")
+}
+```
+Make sure that you have added dependencies on 'kotlin-serialization' 
+-->
