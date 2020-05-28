@@ -163,6 +163,11 @@ tasks{
         }
         group = "license"
     }
+    val licenseFormatJvmMain by creating(com.hierynomus.gradle.license.tasks.LicenseFormat::class) {
+        source = fileTree("$projectDir/src/jvmMain/kotlin") {
+        }
+        group = "license"
+    }
     val licenseFormatCommonMain by creating(com.hierynomus.gradle.license.tasks.LicenseFormat::class) {
         source = fileTree("$projectDir/src/commonMain/kotlin") {
         }
