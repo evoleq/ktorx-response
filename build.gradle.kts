@@ -174,6 +174,6 @@ tasks{
         group = "license"
     }
     licenseFormat {
-        finalizedBy(licenseFormatJsMain, licenseFormatCommonMain)
+        finalizedBy(licenseFormatJsMain, licenseFormatCommonMain, licenseFormatJvmMain)
     }
 }
