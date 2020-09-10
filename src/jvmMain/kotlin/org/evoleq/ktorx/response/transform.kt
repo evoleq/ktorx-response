@@ -18,14 +18,25 @@ package org.evoleq.ktorx.response
 import org.evoleq.math.cat.suspend.monad.result.Result
 
 fun <S: Any, F> Result<S, F>.transform(failureTransformation: (F)->Pair<String,Int>): Response<S> = when(this){
-    is Result.Success -> org.evoleq.ktorx.response.Response.Success<S>(
+    is Result.Success -> Response.Success<S>(
         value
     )
     is Result.Failure -> with(failureTransformation(value)) {
         val (message, code ) = this
-        org.evoleq.ktorx.response.Response.Failure<S>(
+        Response.Failure<S>(
             message,
             code
         )
     }
+}
+
+
+fun <S: Any> Response<S>.toResult(): Result<S, Response.Failure<S>> = when(this) {
+    is Response.Success -> Result.ret(data)
+    is Response.Failure -> Result.fail(this)
+}
+
+fun <S: Any, F> Response<S>.transform(failureTransformation: (Response.Failure<S>) -> F): Result<S, F> = when(this) {
+    is Response.Success -> Result.ret(data)
+    is Response.Failure -> Result.fail(failureTransformation(this))
 }
