@@ -17,6 +17,7 @@ package org.evoleq.ktorx.response
 
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.serializer
+import org.evoleq.math.cat.marker.MathCatDsl
 
 @Serializable(with = ResponseSerializer::class)
 sealed class Response<Data> {
@@ -91,9 +92,48 @@ class ResponseSerializer<Data : Any>(val dataSerializer: KSerializer<Data>): KSe
             else ->  throw SerializationException("Unknown type $type")
         }
     }
-
-
 }
+
+@MathCatDsl
+infix fun <S, T> Response<S>.map(f:(S)->T): Response<T> = when(this) {
+    is Response.Success -> try{
+        Response.Success(f(this.data))
+    } catch(exception: Exception) {
+        Response.Failure<T>(
+            exception.message?:"Error while mapping Response. No message provided",
+            -1
+        )
+    }
+    is Response.Failure -> Response.Failure(
+        message,
+        code
+    )
+}
+
+@MathCatDsl
+infix fun <S, T> Response<S>.bind(f: (S)->Response<T>): Response<T> = when(this) {
+    is Response.Success -> try{
+        f(data)
+    } catch(exception: Exception) {
+        Response.Failure<T>(
+            exception.message?:"Error while binding Response. No message provided",
+            -1
+        )
+    }
+    is Response.Failure -> Response.Failure(
+        message,
+        code
+    )
+}
+
+@MathCatDsl
+fun <S, T> Response<(S)->T>.apply(): (Response<S>)->Response<T> = {
+    response -> this@apply bind { f -> response map f }
+}
+
+@MathCatDsl
+infix fun <S, T> Response<(S)->T>.apply(response: Response<S>): Response<T> = apply()(response)
+
 /*
 object Serializers {
     private val dataSerializers = hashMapOf<KClass<*>, KSerializer<*>>()
