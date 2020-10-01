@@ -15,8 +15,15 @@
  */
 package org.evoleq.ktorx.response
 
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 @Serializable(with = ResponseSerializer::class)
 sealed class Response<Data> {
@@ -39,7 +46,7 @@ sealed class Response<Data> {
 
 class ResponseSerializer<Data : Any>(val dataSerializer: KSerializer<Data>): KSerializer<Response<Data>> {
 
-    override val descriptor: SerialDescriptor = SerialDescriptor("ResponseSerializer") {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("ResponseSerializer") {
         val dataDescriptor = dataSerializer.descriptor
         element("type", String.serializer().descriptor)
         element("data", dataDescriptor)
@@ -71,7 +78,7 @@ class ResponseSerializer<Data : Any>(val dataSerializer: KSerializer<Data>): KSe
         var code: Int = -1
         loop@ while (true) {
             when (val i = inp.decodeElementIndex(descriptor)) {
-                CompositeDecoder.READ_DONE -> break@loop
+                CompositeDecoder.DECODE_DONE -> break@loop
                 0 -> type = inp.decodeStringElement(descriptor,i)
                 1 -> data = inp.decodeSerializableElement(descriptor, i, dataSerializer)
                 2 -> message = inp.decodeStringElement(descriptor,i)

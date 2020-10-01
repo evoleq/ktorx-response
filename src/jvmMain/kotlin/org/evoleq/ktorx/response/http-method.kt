@@ -15,18 +15,10 @@
  */
 package org.evoleq.ktorx.response
 
-import io.ktor.client.HttpClient
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.patch
-import io.ktor.client.request.put
-import io.ktor.client.request.options
-import io.ktor.client.request.delete
-import io.ktor.client.request.head
+import io.ktor.client.*
+import io.ktor.client.request.*
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 suspend inline fun <reified Data> HttpClient.get(
     dataSerializer: KSerializer<Data>,
@@ -35,8 +27,8 @@ suspend inline fun <reified Data> HttpClient.get(
 ): Response<Data> = with(
     get<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.post(
@@ -46,8 +38,8 @@ suspend inline fun <reified Data> HttpClient.post(
 ): Response<Data> = with(
     post<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.patch(
@@ -57,8 +49,8 @@ suspend inline fun <reified Data> HttpClient.patch(
 ): Response<Data> = with(
     patch<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.put(
@@ -68,8 +60,8 @@ suspend inline fun <reified Data> HttpClient.put(
 ): Response<Data> = with(
     put<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.options(
@@ -79,8 +71,8 @@ suspend inline fun <reified Data> HttpClient.options(
 ): Response<Data> = with(
     options<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.delete(
@@ -90,8 +82,8 @@ suspend inline fun <reified Data> HttpClient.delete(
 ): Response<Data> = with(
     delete<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
 
 suspend inline fun <reified Data> HttpClient.head(
@@ -101,6 +93,6 @@ suspend inline fun <reified Data> HttpClient.head(
 ): Response<Data> = with(
     head<String>(urlString,block)
 ) {
-    val json = Json(JsonConfiguration.Default.copy(prettyPrint = true))
-    json.parse(Response.serializer(dataSerializer),this)
+    val json = Json(){prettyPrint = true}
+    json.decodeFromString(Response.serializer(dataSerializer),this)
 }
