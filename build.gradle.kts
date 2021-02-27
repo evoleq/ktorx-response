@@ -132,6 +132,19 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Config.Versions.kotlinSerialization}")
 
                 implementation("io.ktor:ktor-client-core:${Config.Versions.ktor}")
+    
+                // evoleq/mathcat
+                implementation("org.evoleq:mathcat-result:${Config.Versions.mathcat}")
+                implementation("org.evoleq:mathcat-core:${Config.Versions.mathcat}")
+                implementation("org.evoleq:mathcat-structure:${Config.Versions.mathcat}")
+                implementation("org.evoleq:mathcat-structure:${Config.Versions.mathcat}")
+                implementation("org.evoleq:mathcat-morphism:${Config.Versions.mathcat}")
+                implementation("org.evoleq:mathcat-state:${Config.Versions.mathcat}")
+    
+                // evoleq/ktorx
+                implementation("org.evoleq:ktorx:${Config.Projects.Ktorx.version}")
+    
+                implementation("org.evoleq:configurations:${Config.Versions.configurations}")
             }
         }
         val commonTest by getting {

@@ -1,11 +1,12 @@
 package org.evoleq.ktorx.response
 
-//import io.ktor.serialization.DefaultJsonConfiguration
+
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 class ResponseTest {
@@ -22,23 +23,23 @@ class ResponseTest {
         val response = Response.Success(data)
         val expected = """{"type":"Success","data":{"x":7}}"""
         val serialized = Json.encodeToString(Response.serializer(TestData.serializer()),response)
-        assert(serialized == expected)
+        assertEquals(serialized, expected)
         val deserialized = Json{}.decodeFromString(Response.serializer(TestData.serializer()),serialized)
-        assert(deserialized == response)
+        assertEquals(deserialized, response)
     }
     @Test fun `intermediate json response`() {
         val data = TestData(7)
         val response = Response.Success(data)
         val expected = """{"type":"Success","data":{"x":7}}"""
         val serialized = Json.encodeToString(Response.serializer(TestData.serializer()),response)
-        assert(serialized == expected)
+        assertEquals(serialized, expected)
         
         
         val deserializedAsJson: JsonResponse = Json.decodeFromString(Response.serializer(JsonElement.serializer()), serialized)
         val reSerializedFromJson =  Json.encodeToString(Response.serializer(JsonElement.serializer()), deserializedAsJson)
-        assert(reSerializedFromJson == expected)
+        assertEquals(reSerializedFromJson, expected)
         val deserialized =  Json.decodeFromString(Response.serializer(TestData.serializer()),reSerializedFromJson)
-        assert(deserialized == response)
+        assertEquals(deserialized, response)
         
     }
     @Test fun `serialize to protobuf` () {
